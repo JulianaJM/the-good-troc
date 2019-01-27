@@ -16,7 +16,7 @@ const config = {
   mode: env,
   output: {
     publicPath: `/`,
-    filename: "app.bundle.js",
+    filename: "app-[hash].js",
     path: path.join(__dirname, "public")
   },
   // optimization: {
@@ -30,7 +30,7 @@ const config = {
   devServer: {
     port: 9000,
     proxy: {
-      '/api': 'http://localhost:3000'
+      '/': 'http://localhost:3000'
     }
   },
   module: {
@@ -43,6 +43,10 @@ const config = {
         test: /\.js$/,
         loader: `babel-loader`,
         include: [path.join(__dirname, `src`)]
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
       },
       {
         test: /\.scss$/,
