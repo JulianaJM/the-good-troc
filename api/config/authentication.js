@@ -22,6 +22,6 @@ const localStrategy = new LocalStrategy((username, password, next) => {
     .catch(e => next(e));
 });
 
-passport.use("local-signup", localStrategy);
+passport.use("local", localStrategy);
 
 module.exports = passport;

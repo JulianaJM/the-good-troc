@@ -31,4 +31,15 @@ const authRoutes = require('./routes/authentication');
 app.use('/', authRoutes);
 app.use("/api", index);
 
+// error handler
+app.use((err, req, res, next) => {
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
+  
+    // send the error
+    res.status(err.status || 500);
+    res.json({message: err.message});
+});
+
 module.exports = app;
