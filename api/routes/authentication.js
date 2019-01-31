@@ -1,17 +1,18 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/user");
-const passport = require("../config/authentication")
+const passport = require("../config/authentication");
+const jwt = require('jsonwebtoken');
+const expressJwt = require('express-jwt');  
+const authenticate = expressJwt({secret : 'server secret'});
 
 router.post(
   "/signin",
-  passport.authenticate("local",
-  function(req, res) {
-    // If this function gets called, authentication was successful.
-    // `req.user` contains the authenticated user.
-    //res.redirect('/users/' + req.user.username);
-    return res.json({message:'youpi'}); // FIXME
-  }));
+  passport.authenticate( 'local', {
+    session: false
+    // As token based authentication doesn’t need session cookies, we need to make sure to disable passports store by setting the session option to false. 
+    // This way passport won’t create session cookies
+  }), serialize, generateToken, respond);
 
 // Register Handler
 router.post("/signup", (req, res, next) => {
@@ -31,5 +32,32 @@ router.post("/signup", (req, res, next) => {
       } else next(err);
     });
 });
+
+router.get('/lists', authenticate, function(req, res) {  
+  res.status(200).json(req.user);
+});
+
+function serialize(req, res, next) {  
+    req.user = {
+      id: req.user.id
+    };
+    next();
+}
+
+function generateToken(req, res, next) {  
+  req.token = jwt.sign({
+    id: req.user.id,
+  }, 'server secret', {
+    expiresIn: "7d"
+  });
+  next();
+}
+
+function respond(req, res) {  
+  res.status(200).json({
+    user: req.user,
+    token: req.token
+  });
+}
 
 module.exports = router;

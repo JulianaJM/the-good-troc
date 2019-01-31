@@ -16,6 +16,7 @@ const actions = {
         router.push("/");
       },
       error => {
+        console.log('yo j\'ai une erreur: ', error)
         commit("loginFailure", error);
         dispatch("alert/error", error, { root: true });
       }

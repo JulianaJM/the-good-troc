@@ -54,13 +54,14 @@ function register(user) {
 }
 
 function handleResponse(response) {
+    if (response.status === 401) {
+        //location.reload(true);
+        return Promise.reject("username et/ou password invalide");
+    }
     return response.text().then(text => {
         const data = text && JSON.parse(text);
         if (!response.ok) {
-            if (response.status === 401) {
-                location.reload(true);
-            }
-
+           
             const error = (data && data.message) || response.statusText;
             return Promise.reject(error);
         }
