@@ -39,7 +39,8 @@ router.get('/lists', authenticate, function(req, res) {
 
 function serialize(req, res, next) {  
     req.user = {
-      id: req.user.id
+      id: req.user.id,
+      username: req.user.username
     };
     next();
 }
@@ -55,7 +56,7 @@ function generateToken(req, res, next) {
 
 function respond(req, res) {  
   res.status(200).json({
-    user: req.user,
+    ...req.user,
     token: req.token
   });
 }
