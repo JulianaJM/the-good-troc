@@ -15,7 +15,7 @@ const config = {
   entry: path.join(__dirname, `src`, `index.js`),
   mode: env,
   output: {
-    publicPath: `/`,
+    publicPath: "/",
     filename: "app-[hash].js",
     path: path.join(__dirname, "public")
   },
@@ -30,7 +30,8 @@ const config = {
   devServer: {
     port: 9000,
     proxy: {
-      '/': 'http://localhost:3000'
+      '/api': 'http://localhost:3000',
+      '/auth': 'http://localhost:3000'
     }
   },
   module: {

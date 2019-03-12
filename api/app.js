@@ -28,7 +28,7 @@ app.use(serveStatic(path.join(__dirname, "../frontend/public")));
 
 const index = require("./routes/index");
 const authRoutes = require('./routes/authentication');
-app.use('/', authRoutes);
+app.use('/auth', authRoutes);
 app.use("/api", index);
 
 // error handler

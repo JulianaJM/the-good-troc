@@ -80,6 +80,8 @@ export default {
             formData.append('condition',condition);
             console.log("formData : ", formData);
             this.createBarter(formData);
+            this.$router.push("/trocs");
+
         },
         onFileChange(e) {
             var files = e.target.files || e.dataTransfer.files;

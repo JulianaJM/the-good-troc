@@ -17,7 +17,7 @@ function login(username, password) {
         body: JSON.stringify({ username, password })
     };
 
-    return fetch("/signin", requestOptions)
+    return fetch("/auth/signin", requestOptions)
         .then(handleResponse)
         .then(user => {
             // login successful if there's a jwt token in the response
@@ -50,7 +50,7 @@ function register(user) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(user)
     };
-    return fetch('/signup', requestOptions).then(handleResponse);
+    return fetch('/auth/signup', requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {
